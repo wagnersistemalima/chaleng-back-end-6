@@ -33,9 +33,24 @@ class TutorServiceImpl(
             throw BusinessException(messageBusinessException, RegrasTecnicaEnum.FALHA_DE_NEGOCIO, exception)
         }
     }
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): TutorResponseDTO {
+
+        logger.info("Buscando id do tutor na base, $tag, method: findById")
+
+        val tutorEntity = tutorRepository.findById(id).orElseThrow {
+
+            logger.error(String.format("Error: $messageNotFound id: $id, $tag, method: findById"))
+
+            throw BusinessException(messageNotFound, RegrasTecnicaEnum.NAO_ENCONTRADO)
+        }
+
+        return TutorResponseDTO(tutorEntity)
+    }
 
     companion object {
         private const val tag = "class: TutorServiceImpl"
         private const val messageBusinessException = "Houve uma falha de negocio"
+        private const val messageNotFound = "Id do tutor nao encontrado"
     }
 }
