@@ -89,6 +89,26 @@ class RestExceptionHandler {
                     )
                 )
             }
+
+            RegrasTecnicaEnum.NAO_ENCONTRADO -> {
+
+                logger.info(
+                    "ERROR: $tag, method: handleBusinessException, " +
+                            "status: ${HttpStatus.NOT_FOUND.value()}, " +
+                            "error: ${HttpStatus.NOT_FOUND.name} " +
+                            "message: ${exception.message}"
+                )
+
+                return Response(
+                    data = ErrorView(
+                        status = HttpStatus.NOT_FOUND.value(),
+                        error = HttpStatus.NOT_FOUND.name,
+                        message = exception.message ?: "Entity not found!",
+                        path = request.servletPath
+                    )
+                )
+            }
+
             else -> {
 
                 logger.info(

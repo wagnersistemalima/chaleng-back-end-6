@@ -6,4 +6,5 @@ import com.sistemalima.adopet.tutor.entity.TutorEntity
 interface TutorService {
 
     fun create(tutor: TutorEntity): TutorResponseDTO
+    fun findById(id: Long): TutorResponseDTO
 }
