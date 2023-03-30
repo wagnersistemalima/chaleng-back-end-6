@@ -55,6 +55,21 @@ class TutorController(
 
     }
 
+    @GetMapping
+    fun findAll(): ResponseEntity<Response<List<TutorResponseDTO>>> {
+
+        logger.info(String.format("Inicio da listagem dos tutores, $tag, method: findById"))
+
+        val lista = tutorService.findAll()
+
+        val response = Response(lista)
+
+        logger.info(String.format("Fim da listagem dos tutores, $tag, method: findById"))
+
+        return ResponseEntity.ok(response)
+
+    }
+
     companion object {
         private const val tag = "class: TutorController"
     }

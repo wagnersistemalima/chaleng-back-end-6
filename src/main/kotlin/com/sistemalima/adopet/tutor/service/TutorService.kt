@@ -7,4 +7,5 @@ interface TutorService {
 
     fun create(tutor: TutorEntity): TutorResponseDTO
     fun findById(id: Long): TutorResponseDTO
+    fun findAll(): List<TutorResponseDTO>
 }
