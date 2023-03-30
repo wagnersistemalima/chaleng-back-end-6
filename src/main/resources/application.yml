@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: ${PROFILE:dev}
+  application:
+    name: adopet
+
+server:
+  port: 8080
+
+# -------------------Configuração actuator----------------
+management:
+  endpoint:
+    health:
+      show-details: always
+
+    web:
+      exposure:
+        include: "*"
+
+info:
+  app:
+    name: adopet
+    description: Api que vai permitir o usuário criar um perfil, visualizar os pets na fila de adoção. Por sua vez, os abrigos/ONGs podem criar um perfil para os pets e concretizar a adoção.
+    version: 2.7.0
+    java:
+      version: 17
+
+# --------------------------------------------------------------------------------

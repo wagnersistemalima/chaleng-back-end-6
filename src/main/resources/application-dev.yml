@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://127.0.0.1:5433/adopet"
+    password: ${DB_PASSWORD:1234567}
+    username: ${DB_USERNAME:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    ddl-auto: create
+    generate-ddl: true
+    show-sql: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
