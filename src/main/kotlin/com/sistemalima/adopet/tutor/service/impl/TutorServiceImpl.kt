@@ -48,6 +48,16 @@ class TutorServiceImpl(
         return TutorResponseDTO(tutorEntity)
     }
 
+    @Transactional(readOnly = true)
+    override fun findAll(): List<TutorResponseDTO> {
+
+        logger.info(String.format("Listando os tutores, $tag, method: findAll"))
+
+        val listaEntity = tutorRepository.findAll()
+
+        return listaEntity.map { it -> TutorResponseDTO(it) }
+    }
+
     companion object {
         private const val tag = "class: TutorServiceImpl"
         private const val messageBusinessException = "Houve uma falha de negocio"
