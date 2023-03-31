@@ -1,4 +1,4 @@
-package com.sistemalima.adopet.tutor.exceptions
+package com.sistemalima.adopet.user.exceptions
 
 open class NoStacktraceException: RuntimeException {
     constructor(message: String): super(message)

@@ -1,4 +1,4 @@
-package com.sistemalima.adopet.tutor.entity
+package com.sistemalima.adopet.user.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -8,16 +8,19 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 
 @Entity
-@Table(name = "tb_tutor")
-data class TutorEntity(
+@Table(name = "tb_user")
+data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cod_unic_tutor")
+    @Column(name = "cod_unic_user")
     val id: Long? = null,
-    @Column(name = "cod_nome_tutor")
+    @Column(name = "cod_nome_user")
     var name: String,
-    @Column(name = "cod_email_tutor")
+    @Column(name = "cod_email_user")
     var email: String,
-    @Column(name = "cod_senha_tutor")
-    var password: String
+    @Column(name = "cod_senha_user")
+    var password: String,
+
+    @Column(name = "cod_ativo_user")
+    var active: Boolean = true
 )

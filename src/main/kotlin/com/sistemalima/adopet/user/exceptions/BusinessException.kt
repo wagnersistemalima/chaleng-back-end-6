@@ -1,6 +1,6 @@
-package com.sistemalima.adopet.tutor.exceptions
+package com.sistemalima.adopet.user.exceptions
 
-import com.sistemalima.adopet.tutor.exceptions.enum.RegrasTecnicaEnum
+import com.sistemalima.adopet.user.exceptions.enum.RegrasTecnicaEnum
 
 class BusinessException: NoStacktraceException {
 
