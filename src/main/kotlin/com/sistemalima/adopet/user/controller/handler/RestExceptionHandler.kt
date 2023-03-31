@@ -1,16 +1,18 @@
-package com.sistemalima.adopet.tutor.controller.handler
+package com.sistemalima.adopet.user.controller.handler
 
-import com.sistemalima.adopet.tutor.controller.dto.Response
-import com.sistemalima.adopet.tutor.controller.handler.dto.ErrorView
-import com.sistemalima.adopet.tutor.exceptions.BadRequestException
-import com.sistemalima.adopet.tutor.exceptions.BusinessException
-import com.sistemalima.adopet.tutor.exceptions.enum.RegrasTecnicaEnum
+import com.sistemalima.adopet.user.controller.dto.Response
+import com.sistemalima.adopet.user.controller.handler.dto.ErrorView
+import com.sistemalima.adopet.user.exceptions.BadRequestException
+import com.sistemalima.adopet.user.exceptions.BusinessException
+import com.sistemalima.adopet.user.exceptions.ResourceNotFoundException
+import com.sistemalima.adopet.user.exceptions.enum.RegrasTecnicaEnum
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import javax.persistence.EntityNotFoundException
 import javax.servlet.http.HttpServletRequest
 
 @RestControllerAdvice
@@ -89,44 +91,6 @@ class RestExceptionHandler {
                     )
                 )
             }
-
-            RegrasTecnicaEnum.NAO_ENCONTRADO -> {
-
-                logger.info(
-                    "ERROR: $tag, method: handleBusinessException, " +
-                            "status: ${HttpStatus.NOT_FOUND.value()}, " +
-                            "error: ${HttpStatus.NOT_FOUND.name} " +
-                            "message: ${exception.message}"
-                )
-
-                return Response(
-                    data = ErrorView(
-                        status = HttpStatus.NOT_FOUND.value(),
-                        error = HttpStatus.NOT_FOUND.name,
-                        message = exception.message ?: "Entity not found!",
-                        path = request.servletPath
-                    )
-                )
-            }
-
-            else -> {
-
-                logger.info(
-                    "ERROR: $tag, method: handleBusinessException, " +
-                            "status: ${HttpStatus.INTERNAL_SERVER_ERROR.value()}, " +
-                            "error: ${HttpStatus.INTERNAL_SERVER_ERROR.name} " +
-                            "message: ${exception.message}"
-                )
-
-                return Response(
-                    data = ErrorView(
-                        status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        error = HttpStatus.INTERNAL_SERVER_ERROR.name,
-                        message = exception.message ?: "Falha no servidor",
-                        path = request.servletPath
-                    )
-                )
-            }
         }
     }
 
@@ -146,6 +110,27 @@ class RestExceptionHandler {
                 status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 error = HttpStatus.INTERNAL_SERVER_ERROR.name,
                 message = messageInternalServerError,
+                path = request.servletPath
+            )
+        )
+    }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun handleResourceNotFoundException(exception: ResourceNotFoundException, request: HttpServletRequest): Response<ErrorView> {
+
+        logger.info(
+            "ERROR: $tag, method: ResourceNotFoundException, " +
+                    "status: ${HttpStatus.NOT_FOUND.value()}, " +
+                    "error: ${HttpStatus.NOT_FOUND.name} " +
+                    "message: ${exception.message}"
+        )
+
+        return Response(
+            data = ErrorView(
+                status = HttpStatus.NOT_FOUND.value(),
+                error = HttpStatus.NOT_FOUND.name,
+                message = exception.message?: "Entity not found",
                 path = request.servletPath
             )
         )

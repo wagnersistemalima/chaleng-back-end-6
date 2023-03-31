@@ -1,4 +1,4 @@
-package com.sistemalima.adopet.tutor.controller.handler.dto
+package com.sistemalima.adopet.user.controller.handler.dto
 
 import java.time.LocalDateTime
 

@@ -1,16 +1,14 @@
-package com.sistemalima.adopet.tutor.controller.dto
+package com.sistemalima.adopet.user.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.sistemalima.adopet.tutor.entity.TutorEntity
+import com.sistemalima.adopet.user.entity.UserEntity
 import org.springframework.validation.annotation.Validated
-import java.util.*
-import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Validated
-data class TutorRequestDTO(
+data class UserRequestDTO(
     @JsonProperty("nome")
     @field:NotBlank(message = "nome não pode ser nulo ou vazio")
     @field:Size(max = 50, message = "nome pode ter no maximo 50 caracter")
@@ -27,8 +25,8 @@ data class TutorRequestDTO(
     @field:Size(min = 8, max = 8, message = "senha pode ter no maximo 8 caracter e minimo 8 caracter")
     val password: String
 ) {
-    fun toModel(): TutorEntity {
-        return TutorEntity(
+    fun toModel(): UserEntity {
+        return UserEntity(
             name = this.name.lowercase(),
             email = this.email.lowercase(),
             password = this.password.lowercase()
