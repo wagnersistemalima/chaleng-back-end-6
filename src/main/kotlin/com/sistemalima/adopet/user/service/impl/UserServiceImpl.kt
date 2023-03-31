@@ -60,7 +60,7 @@ class UserServiceImpl(
     override fun fullUpdate(id: Long, user: UserEntity): UserResponseDTO {
         logger.info("Atualizando o cadastro de um usuario, $tag, method: fullUpdate")
 
-        val userEntity = findByIdUser(id)
+        val userEntity = findByIdUserValidate(id)
 
         val tutorEntityCopy = fullUpdateTutor(user, userEntity)
 
@@ -73,7 +73,7 @@ class UserServiceImpl(
     override fun incrementalUpdate(id: Long, userUpdateDTO: UserUpdateDTO): UserResponseDTO {
         logger.info("Atualizando o cadastro de um usuario, $tag, method: incrementalUpdate")
 
-        val userEntity = findByIdUser(id)
+        val userEntity = findByIdUserValidate(id)
 
         val userEntityCopy = incrementalUpdateTutor(userEntity, userUpdateDTO)
 
