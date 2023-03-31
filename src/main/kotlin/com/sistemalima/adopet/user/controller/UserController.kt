@@ -26,6 +26,8 @@ class UserController(
 
     private val logger = LoggerFactory.getLogger(UserController::class.java)
 
+    // [POST] cadastra os dados de um Usuario, nome, email, senha
+
     @PostMapping
     fun create(@RequestBody @Valid request: Request<UserRequestDTO>): ResponseEntity<Response<UserResponseDTO>> {
 
@@ -41,6 +43,8 @@ class UserController(
         return ResponseEntity.ok(response)
     }
 
+    // [GET] Pesquisa um usuario pelo id, retorna apenas o usuario se ele estiver ativo
+
     @GetMapping("/{id}")
     fun findById(@PathVariable("id") id: Long): ResponseEntity<Response<UserResponseDTO>> {
 
@@ -54,6 +58,8 @@ class UserController(
         return ResponseEntity.ok(response)
 
     }
+
+    // [GET] Lista todos os usuarios ativos e inativos
 
     @GetMapping
     fun findAll(): ResponseEntity<Response<List<UserResponseDTO>>> {
@@ -69,6 +75,8 @@ class UserController(
         return ResponseEntity.ok(response)
 
     }
+
+    // [PUT] Atualiza todos os dados do cadastro, nome, email, senha
 
     @PutMapping("/{id}")
     fun fullUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserRequestDTO>): ResponseEntity<Response<UserResponseDTO>> {
@@ -88,6 +96,8 @@ class UserController(
         return ResponseEntity.ok(response)
     }
 
+    // [PATCH] Atualiza apenas a senha de um usuario ativo
+
     @PatchMapping("/{id}")
     fun incrementalUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserUpdateDTO>): ResponseEntity<Response<UserResponseDTO>> {
 
@@ -103,6 +113,8 @@ class UserController(
 
         return ResponseEntity.ok(response)
     }
+
+    // [DELETE] Desativa um usuario, active = false
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long): ResponseEntity<Unit> {

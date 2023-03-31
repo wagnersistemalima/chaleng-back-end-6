@@ -1,5 +1,6 @@
 package com.sistemalima.adopet.user.entity
 
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -20,7 +21,10 @@ data class UserEntity(
     var email: String,
     @Column(name = "cod_senha_user")
     var password: String,
-
     @Column(name = "cod_ativo_user")
-    var active: Boolean = true
+    var active: Boolean = true,
+    @Column(name = "cod_data_create_user")
+    val creatAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "cod_data_update_user")
+    val updateAt: LocalDateTime? = null
 )
