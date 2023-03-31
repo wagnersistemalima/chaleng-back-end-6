@@ -15,9 +15,9 @@ data class TutorEntity(
     @Column(name = "cod_unic_tutor")
     val id: Long? = null,
     @Column(name = "cod_nome_tutor")
-    val name: String,
+    var name: String,
     @Column(name = "cod_email_tutor")
-    val email: String,
+    var email: String,
     @Column(name = "cod_senha_tutor")
-    val password: String
+    var password: String
 )

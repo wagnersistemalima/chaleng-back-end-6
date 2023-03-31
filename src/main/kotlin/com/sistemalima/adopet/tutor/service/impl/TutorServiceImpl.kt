@@ -1,6 +1,7 @@
 package com.sistemalima.adopet.tutor.service.impl
 
 import com.sistemalima.adopet.tutor.controller.dto.TutorResponseDTO
+import com.sistemalima.adopet.tutor.controller.dto.TutorUpdateDTO
 import com.sistemalima.adopet.tutor.entity.TutorEntity
 import com.sistemalima.adopet.tutor.exceptions.BusinessException
 import com.sistemalima.adopet.tutor.exceptions.enum.RegrasTecnicaEnum
@@ -38,12 +39,7 @@ class TutorServiceImpl(
 
         logger.info("Buscando id do tutor na base, $tag, method: findById")
 
-        val tutorEntity = tutorRepository.findById(id).orElseThrow {
-
-            logger.error(String.format("Error: $messageNotFound id: $id, $tag, method: findById"))
-
-            throw BusinessException(messageNotFound, RegrasTecnicaEnum.NAO_ENCONTRADO)
-        }
+        val tutorEntity = findByIdTutor(id)
 
         return TutorResponseDTO(tutorEntity)
     }
@@ -56,6 +52,60 @@ class TutorServiceImpl(
         val listaEntity = tutorRepository.findAll()
 
         return listaEntity.map { it -> TutorResponseDTO(it) }
+    }
+    @Transactional
+    override fun fullUpdate(id: Long, tutor: TutorEntity): TutorResponseDTO {
+        logger.info("Atualizando o cadastro de um tutor, $tag, method: fullUpdate")
+
+        val tutorEntity = findByIdTutor(id)
+
+        val tutorEntityCopy = fullUpdateTutor(tutor, tutorEntity)
+
+        val entitySave = tutorRepository.save(tutorEntityCopy)
+
+        return TutorResponseDTO(entitySave)
+    }
+
+    @Transactional
+    override fun incrementalUpdate(id: Long, tutorUpdateDTO: TutorUpdateDTO): TutorResponseDTO {
+        logger.info("Atualizando o cadastro de um tutor, $tag, method: incrementalUpdate")
+
+        val tutorEntity = findByIdTutor(id)
+
+        val tutorEntityCopy = incrementalUpdateTutor(tutorEntity, tutorUpdateDTO)
+
+        val tutorSave = tutorRepository.save(tutorEntityCopy)
+
+        return TutorResponseDTO(tutorSave)
+    }
+
+    @Transactional(readOnly = true)
+    private fun findByIdTutor(id: Long): TutorEntity {
+
+        val tutorEntity = tutorRepository.findById(id).orElseThrow {
+
+            logger.error(String.format("Error: $messageNotFound id: $id, $tag, method: findByIdTutor"))
+
+            throw BusinessException(messageNotFound, RegrasTecnicaEnum.NAO_ENCONTRADO)
+        }
+
+        return tutorEntity
+    }
+
+    private fun fullUpdateTutor(tutor: TutorEntity, tutorEntity: TutorEntity): TutorEntity {
+
+        return tutorEntity.copy(
+            name = tutor.name,
+            email = tutor.email,
+            password = tutor.password
+        )
+    }
+
+    private fun incrementalUpdateTutor(tutorEntity: TutorEntity, tutorUpdateDTO: TutorUpdateDTO): TutorEntity {
+
+        return tutorEntity.copy(
+            password = tutorUpdateDTO.password
+        )
     }
 
     companion object {
