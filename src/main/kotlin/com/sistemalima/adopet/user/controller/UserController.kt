@@ -6,15 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
@@ -76,18 +68,16 @@ class UserController(
 
     }
 
-    // [PUT] Atualiza todos os dados do cadastro, nome, email, senha
+    // [PUT] Atualiza todos os dados do cadastro, nome, email, senha, descricao, url foto perfil, telefone
 
     @PutMapping("/{id}")
-    fun fullUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserRequestDTO>): ResponseEntity<Response<UserResponseDTO>> {
+    fun fullUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserFullUpdateDTO>): ResponseEntity<Response<UserResponseDTO>> {
 
         logger.info(String.format("[PUT] Inicio da atualizacao do cadastro de um usuario, $tag, method: fullUpdate"))
 
-        val userRequestDTO = request.data
+        val userFullUpdateDTO = request.data
 
-        val user = userRequestDTO.toModel()
-
-        val tutorResponse = userService.fullUpdate(id, user)
+        val tutorResponse = userService.fullUpdate(id, userFullUpdateDTO)
 
         val response = Response(tutorResponse)
 
@@ -96,10 +86,10 @@ class UserController(
         return ResponseEntity.ok(response)
     }
 
-    // [PATCH] Atualiza apenas a senha de um usuario ativo
+    // [PATCH] Atualiza, photo perfil, telefone, descricao, de um usuario ativo
 
     @PatchMapping("/{id}")
-    fun incrementalUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserUpdateDTO>): ResponseEntity<Response<UserResponseDTO>> {
+    fun incrementalUpdate(@PathVariable("id") id: Long, @RequestBody @Valid request: Request<UserIncrementalUpdateDTO>): ResponseEntity<Response<UserResponseDTO>> {
 
         logger.info(String.format("[PATCH] Inicio da atualizacao do cadastro de um usuario, $tag, method: incrementalUpdate"))
 

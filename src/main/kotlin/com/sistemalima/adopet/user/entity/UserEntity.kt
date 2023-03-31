@@ -21,10 +21,22 @@ data class UserEntity(
     var email: String,
     @Column(name = "cod_senha_user")
     var password: String,
+
+    @Column(name = "cod_url_foto_perfil_user")
+    var profilePictureUrl: String? = null,
+
+    @Column(name = "cod_descricao_user")
+    var about: String? = null,
+
+    @Column(name = "cod_telefone_user")
+    val phone: String? = null,
+
     @Column(name = "cod_ativo_user")
     var active: Boolean = true,
-    @Column(name = "cod_data_create_user")
+    @Column(name = "cod_data_criacao_user")
     val creatAt: LocalDateTime = LocalDateTime.now(),
-    @Column(name = "cod_data_update_user")
-    val updateAt: LocalDateTime? = null
+    @Column(name = "cod_data_atualizacao_user")
+    val updateAt: LocalDateTime? = null,
+    @Column(name = "cod_data_cancelamento_user")
+    var deleteAt: LocalDateTime? = null
 )
