@@ -1,7 +1,8 @@
 package com.sistemalima.adopet.user.service.impl
 
+import com.sistemalima.adopet.user.controller.dto.UserFullUpdateDTO
+import com.sistemalima.adopet.user.controller.dto.UserIncrementalUpdateDTO
 import com.sistemalima.adopet.user.controller.dto.UserResponseDTO
-import com.sistemalima.adopet.user.controller.dto.UserUpdateDTO
 import com.sistemalima.adopet.user.entity.UserEntity
 import com.sistemalima.adopet.user.exceptions.BusinessException
 import com.sistemalima.adopet.user.exceptions.ResourceNotFoundException
@@ -58,12 +59,12 @@ class UserServiceImpl(
         return listaEntity.map { UserResponseDTO(it) }
     }
     @Transactional
-    override fun fullUpdate(id: Long, user: UserEntity): UserResponseDTO {
+    override fun fullUpdate(id: Long, userFullUpdateDTO: UserFullUpdateDTO): UserResponseDTO {
         logger.info("Atualizando o cadastro de um usuario, $tag, method: fullUpdate")
 
         val userEntity = findByIdUserValidate(id)
 
-        val tutorEntityCopy = fullUpdateTutor(user, userEntity)
+        val tutorEntityCopy = fullUpdateTutor(userFullUpdateDTO, userEntity)
 
         val entitySave = userRepository.save(tutorEntityCopy)
 
@@ -71,12 +72,12 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun incrementalUpdate(id: Long, userUpdateDTO: UserUpdateDTO): UserResponseDTO {
+    override fun incrementalUpdate(id: Long, userIncrementalUpdateDTO: UserIncrementalUpdateDTO): UserResponseDTO {
         logger.info("Atualizando o cadastro de um usuario, $tag, method: incrementalUpdate")
 
         val userEntity = findByIdUserValidate(id)
 
-        val userEntityCopy = incrementalUpdateTutor(userEntity, userUpdateDTO)
+        val userEntityCopy = incrementalUpdateTutor(userEntity, userIncrementalUpdateDTO)
 
         val userSave = userRepository.save(userEntityCopy)
 
@@ -91,6 +92,7 @@ class UserServiceImpl(
         val userEntity = findByIdUserValidate(id)
 
         userEntity.active = false
+        userEntity.deleteAt = LocalDateTime.now()
         userRepository.save(userEntity)
     }
 
@@ -109,21 +111,26 @@ class UserServiceImpl(
         return userEntity
     }
 
-    private fun fullUpdateTutor(user: UserEntity, userEntity: UserEntity): UserEntity {
+    private fun fullUpdateTutor(userFullUpdateDTO: UserFullUpdateDTO, userEntity: UserEntity): UserEntity {
 
         return userEntity.copy(
-            name = user.name,
-            email = user.email,
-            password = user.password,
+            name = userFullUpdateDTO.name,
+            email = userFullUpdateDTO.email,
+            password = userFullUpdateDTO.password,
+            profilePictureUrl = userFullUpdateDTO.profilePictureUrl,
+            about = userFullUpdateDTO.about,
+            phone = userFullUpdateDTO.phone,
             active = true,
             updateAt = LocalDateTime.now()
         )
     }
 
-    private fun incrementalUpdateTutor(userEntity: UserEntity, userUpdateDTO: UserUpdateDTO): UserEntity {
+    private fun incrementalUpdateTutor(userEntity: UserEntity, userIncrementalUpdateDTO: UserIncrementalUpdateDTO): UserEntity {
 
         return userEntity.copy(
-            password = userUpdateDTO.password,
+            profilePictureUrl = userIncrementalUpdateDTO.profilePictureUrl,
+            about = userIncrementalUpdateDTO.about,
+            phone = userIncrementalUpdateDTO.phone,
             active = true,
             updateAt = LocalDateTime.now()
         )
