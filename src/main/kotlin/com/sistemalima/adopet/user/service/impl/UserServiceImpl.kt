@@ -11,6 +11,7 @@ import com.sistemalima.adopet.user.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(
@@ -108,26 +109,14 @@ class UserServiceImpl(
         return userEntity
     }
 
-    @Transactional(readOnly = true)
-    private fun findByIdUser(id: Long): UserEntity {
-
-        val userEntity = userRepository.findById(id).orElseThrow {
-
-            logger.error(String.format("Error: $messageNotFound id: $id, $tag, method: findByIdUser"))
-
-            throw ResourceNotFoundException(messageNotFound)
-        }
-
-        return userEntity
-    }
-
     private fun fullUpdateTutor(user: UserEntity, userEntity: UserEntity): UserEntity {
 
         return userEntity.copy(
             name = user.name,
             email = user.email,
             password = user.password,
-            active = true
+            active = true,
+            updateAt = LocalDateTime.now()
         )
     }
 
@@ -135,7 +124,8 @@ class UserServiceImpl(
 
         return userEntity.copy(
             password = userUpdateDTO.password,
-            active = true
+            active = true,
+            updateAt = LocalDateTime.now()
         )
     }
 
