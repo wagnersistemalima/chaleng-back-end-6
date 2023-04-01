@@ -120,6 +120,7 @@ class UserServiceImpl(
             profilePictureUrl = userFullUpdateDTO.profilePictureUrl,
             about = userFullUpdateDTO.about,
             phone = userFullUpdateDTO.phone,
+            city = userFullUpdateDTO.city.lowercase(),
             active = true,
             updateAt = LocalDateTime.now()
         )
@@ -131,6 +132,7 @@ class UserServiceImpl(
             profilePictureUrl = userIncrementalUpdateDTO.profilePictureUrl,
             about = userIncrementalUpdateDTO.about,
             phone = userIncrementalUpdateDTO.phone,
+            city = userIncrementalUpdateDTO.city.lowercase(),
             active = true,
             updateAt = LocalDateTime.now()
         )

@@ -31,6 +31,9 @@ data class UserEntity(
     @Column(name = "cod_telefone_user")
     val phone: String? = null,
 
+    @Column(name = "cod_cidade_user")
+    val city: String? = null,
+
     @Column(name = "cod_ativo_user")
     var active: Boolean = true,
     @Column(name = "cod_data_criacao_user")
