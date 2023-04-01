@@ -18,9 +18,14 @@ data class UserIncrementalUpdateDTO(
     val about: String,
 
     @JsonProperty("telefone")
-    @field:NotBlank(message = "senha não pode ser nula ou vazia")
+    @field:NotBlank(message = "telefone não pode ser nula ou vazia")
     @field:Size(min = 11, max = 11, message = "numero de telefone pode ter no maximo 11 caracter e minimo 11 caracter com ddd")
-    val phone: String
+    val phone: String,
+
+    @JsonProperty("cidade")
+    @field:NotBlank(message = "cidade não pode ser nula ou vazia")
+    @field:Size(max = 50, message = "cidade pode ter no maximo 50 caracter")
+    val city: String
 
 ) {
 }

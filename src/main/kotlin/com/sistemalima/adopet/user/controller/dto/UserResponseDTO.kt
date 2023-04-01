@@ -17,6 +17,8 @@ data class UserResponseDTO(
     val about: String?,
     @JsonProperty("telefone")
     val phone: String?,
+    @JsonProperty("cidade")
+    val city: String?,
     @JsonProperty("ativo")
     val active: Boolean,
     @JsonProperty("data_criacao")
@@ -31,7 +33,7 @@ data class UserResponseDTO(
         userEntity.name,
         userEntity.email,
         userEntity.profilePictureUrl,
-        userEntity.about, userEntity.phone,
+        userEntity.about, userEntity.phone, userEntity.city,
         userEntity.active, userEntity.creatAt.toString(),
         userEntity.updateAt.toString(), userEntity.deleteAt.toString())
 }
