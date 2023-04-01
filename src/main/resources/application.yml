@@ -21,7 +21,7 @@ info:
   app:
     name: adopet
     description: Api que vai permitir o usuário criar um perfil, visualizar os pets na fila de adoção. Por sua vez, os abrigos/ONGs podem criar um perfil para os pets e concretizar a adoção.
-    version: 2.7.0
+    version: 2.7.10
     java:
       version: 17
 
